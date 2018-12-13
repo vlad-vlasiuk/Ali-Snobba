@@ -43,6 +43,15 @@ public class CartService {
     }
 
     public void incProduct(Product product) {
+        List<LineItem> items = cart.getItems();
+        LineItem lineItem = items.stream()
+                .filter(e -> e.getProduct().equals(product))
+                .findFirst()
+                .orElse(null);
+        if (lineItem == null) {
+            throw new IllegalArgumentException("product not found");
+        }
+        lineItem.incProduct();
     }
 
 }
