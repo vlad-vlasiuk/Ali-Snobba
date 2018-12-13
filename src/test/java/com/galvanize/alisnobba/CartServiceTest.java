@@ -1,5 +1,9 @@
-package com.galvanize.alisnobba.entity;
+package com.galvanize.alisnobba;
 
+import com.galvanize.alisnobba.CartService;
+import com.galvanize.alisnobba.entity.Cart;
+import com.galvanize.alisnobba.entity.LineItem;
+import com.galvanize.alisnobba.entity.Product;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,32 +15,32 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class CartTest {
+public class CartServiceTest {
+
+    CartService service;
 
     @Before
     public void setUp() throws Exception {
-    }
 
-    @After
-    public void tearDown() throws Exception {
-    }
+        service = new CartService();
 
-    @Test
-    public void addProduct() {
     }
 
     @Test
-    public void addItem() {
+    public void addProductTest() {
+
+        Cart cart = new Cart();
+
+        service.setCart(cart);
 
         Product watch = new Product.ProductBuilder()
                 .id(1L)
                 .name("watch SuperWatch")
                 .price(new BigDecimal(5000.50))
                 .build();
-        Cart cart = new Cart();
-        cart.addProduct(watch);
+        service.addProduct(watch);
 
-        List<LineItem> items = cart.getItems();
+        List<LineItem> items = service.getCart().getItems();
 
         List<LineItem> collect = items.stream().filter(e -> e.getProduct().equals(watch)).collect(Collectors.toList());
 
@@ -48,9 +52,8 @@ public class CartTest {
     @Test
     public void clearCartTest() {
 
-        Cart cart = new Cart();
-        cart.clearCart();
-        assertThat("expected that size cart is 0", cart.getItems().size(), is(0));
+        service.clearCart();
+        assertThat("expected that size cart is 0", service.getCart().getItems().size(), is(0));
 
     }
 }
