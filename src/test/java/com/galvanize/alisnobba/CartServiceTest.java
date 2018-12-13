@@ -52,6 +52,7 @@ public class CartServiceTest {
     @Test
     public void clearCartTest() {
 
+        service.setCart(new Cart());
         service.clearCart();
         assertThat("expected that size cart is 0", service.getCart().getItems().size(), is(0));
 

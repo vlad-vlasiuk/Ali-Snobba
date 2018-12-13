@@ -1,7 +1,10 @@
 package com.galvanize.alisnobba;
 
 import com.galvanize.alisnobba.entity.Cart;
+import com.galvanize.alisnobba.entity.LineItem;
 import com.galvanize.alisnobba.entity.Product;
+
+import java.util.List;
 
 public class CartService {
 
@@ -22,11 +25,20 @@ public class CartService {
     }
 
     public void clearCart() {
-
+        cart.getItems().clear();
     }
 
     public void addProduct(Product product) {
-
+        List<LineItem> items = cart.getItems();
+        LineItem lineItem = items.stream()
+                .filter(e -> e.getProduct().equals(product))
+                .findFirst()
+                .orElse(null);
+        if (lineItem == null) {
+            lineItem = new LineItem(product, 0);
+            cart.addItem(lineItem);
+        }
+        lineItem.incProduct();
 
     }
 
