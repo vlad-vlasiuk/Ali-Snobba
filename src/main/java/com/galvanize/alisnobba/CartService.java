@@ -42,4 +42,7 @@ public class CartService {
 
     }
 
+    public void incProduct(Product product) {
+    }
+
 }
